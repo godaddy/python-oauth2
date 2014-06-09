@@ -1211,6 +1211,20 @@ class TestClient(unittest.TestCase):
         self.assertTrue('oauth_token' in res)
         self.assertTrue('oauth_token_secret' in res)
 
+    def test_access_token_post_json_content_type(self):
+        """Test getting an access token via POST."""
+        client = oauth.Client(self.consumer,
+                              None,
+                              post_content_type='application/json; charset=utf-8')
+
+        resp, content = client.request(self._uri('request_token'), "POST")
+
+        self.assertEquals(int(resp['status']), 200)
+
+        res = dict(parse_qsl(content))
+        self.assertTrue('oauth_token' in res)
+        self.assertTrue('oauth_token_secret' in res)
+
     def _two_legged(self, method):
         client = oauth.Client(self.consumer, None)
 
