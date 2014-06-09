@@ -45,6 +45,10 @@ except ImportError:
     # hashlib was added in Python 2.5
     import sha
 
+import _version
+
+__version__ = _version.__version__
+
 OAUTH_VERSION = '1.0'  # Hi Blaine!
 HTTP_METHOD = 'GET'
 SIGNATURE_METHOD = 'PLAINTEXT'
@@ -612,7 +616,7 @@ class Client(httplib2.Http):
     """OAuthClient is a worker to attempt to execute a request."""
 
     def __init__(self, consumer, token=None, cache=None, timeout=None,
-        proxy_info=None, post_content_type=None):
+        proxy_info=None, post_content_type='application/x-www-form-urlencoded'):
 
         if consumer is not None and not isinstance(consumer, Consumer):
             raise ValueError("Invalid consumer.")
@@ -623,11 +627,7 @@ class Client(httplib2.Http):
         self.consumer = consumer
         self.token = token
         self.method = SignatureMethod_HMAC_SHA1()
-
-        if post_content_type:
-          self.post_content_type = post_content_type
-        else:
-          self.post_content_type = 'application/x-www-form-urlencoded'
+        self.post_content_type = post_content_type
 
         httplib2.Http.__init__(self, cache=cache, timeout=timeout, proxy_info=proxy_info)
 
