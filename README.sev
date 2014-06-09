@@ -1,3 +1,0 @@
-License: MIT License
-Local modifications:
-Added way to pass in content-type for POST requests
